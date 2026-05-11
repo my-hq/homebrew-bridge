@@ -1,0 +1,36 @@
+name: Auto-bump on Bridge release
+
+on:
+  repository_dispatch:
+    types: [new-release]
+
+permissions:
+  contents: write
+
+jobs:
+  bump:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Update cask
+        env:
+          TAG: ${{ github.event.client_payload.tag }}
+          SHA: ${{ github.event.client_payload.sha256 }}
+        run: |
+          test -n "$TAG" && test -n "$SHA"
+          VERSION="${TAG#v}"
+          sed -i.bak \
+            -e "s|^  version \".*\"|  version \"${VERSION}\"|" \
+            -e "s|^  sha256 \".*\"|  sha256 \"${SHA}\"|" \
+            Casks/bridge.rb
+          rm Casks/bridge.rb.bak
+
+      - name: Commit & push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add Casks/bridge.rb
+          git diff --quiet --cached && exit 0
+          git commit -m "chore: bump bridge to ${{ github.event.client_payload.tag }}"
+          git push origin main
