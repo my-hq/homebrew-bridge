@@ -10,6 +10,11 @@ brew install --cask bridge
 Upgrade with `brew upgrade --cask bridge`. The tap strips macOS quarantine
 on install so Bridge launches without Gatekeeper warnings.
 
+When a new version ships, Bridge itself shows an in-app banner with an
+**Update via Homebrew** button — clicking it opens Terminal.app with the
+upgrade command pre-typed. A **Copy command** fallback is there for users
+on iTerm / Warp / etc.
+
 ## Wait — why is the tap `my-hq/bridge` but the repo is `my-hq/homebrew-bridge`?
 
 Homebrew's tap naming convention. `brew tap <user>/<name>` auto-resolves
