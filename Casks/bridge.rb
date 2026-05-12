@@ -1,6 +1,6 @@
 cask "bridge" do
   version "0.4.0"
-  sha256 "REPLACE_ME_WITH_REAL_SHA256"
+  sha256 "40bfb8fd636370e6f786e7e5223957d4373a367d1d8532bf8debd797667e04d7"
 
   url "https://github.com/my-hq/bridge/releases/download/v#{version}/Bridge-v#{version}.zip"
   name "Bridge"
