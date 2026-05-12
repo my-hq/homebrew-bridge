@@ -1,8 +1,11 @@
 cask "bridge" do
   version "0.4.0"
-  sha256 "40bfb8fd636370e6f786e7e5223957d4373a367d1d8532bf8debd797667e04d7"
+  sha256 "REPLACE_ME_WITH_REAL_SHA256"
 
-  url "https://github.com/my-hq/bridge/releases/download/v#{version}/Bridge-v#{version}.zip"
+  # Artifact lives here, on the tap repo (this repo), not on the private
+  # source repo my-hq/bridge. The release workflow over there uploads
+  # zips to this repo's GitHub Releases.
+  url "https://github.com/my-hq/homebrew-bridge/releases/download/v#{version}/Bridge-v#{version}.zip"
   name "Bridge"
   desc "Native API client for .bru collections"
   homepage "https://github.com/my-hq/bridge"
