@@ -1,4 +1,4 @@
-cask "bridge" do
+cask "myhq-bridge" do
   version "0.4.2"
   sha256 "dd5027b0eb167018b621408e76b89c030c8dd44ae4a94b1dfd330bcba2186239"
 

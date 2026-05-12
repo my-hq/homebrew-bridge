@@ -4,41 +4,43 @@ Homebrew tap for [Bridge](https://github.com/my-hq/bridge).
 
 ````bash
 brew tap my-hq/bridge
-brew install --cask bridge
+brew install --cask myhq-bridge
 ````
 
-Upgrade with `brew upgrade --cask bridge`. The tap strips macOS quarantine
-on install so Bridge launches without Gatekeeper warnings.
+Upgrade with `brew upgrade --cask myhq-bridge`. The cask strips macOS
+quarantine on install so Bridge launches without Gatekeeper warnings.
 
 When a new version ships, Bridge itself shows an in-app banner with an
 **Update via Homebrew** button — clicking it opens Terminal.app with the
 upgrade command pre-typed. A **Copy command** fallback is there for users
 on iTerm / Warp / etc.
 
-## Wait — why is the tap `my-hq/bridge` but the repo is `my-hq/homebrew-bridge`?
+## Why is the cask called `myhq-bridge` and not just `bridge`?
+
+The official `homebrew/cask` tap already has a cask named `bridge` (a
+discontinued Adobe / Epic Games thing). When two taps both ship `bridge`,
+`brew install --cask bridge` won't reliably pick ours. Prefixing with the
+org name (`myhq-bridge`) gives this cask a clean namespace, so the install
+command always resolves here.
+
+## Why is the tap `my-hq/bridge` but the repo is `my-hq/homebrew-bridge`?
 
 Homebrew's tap naming convention. `brew tap <user>/<name>` auto-resolves
 to `github.com/<user>/homebrew-<name>` — the `homebrew-` prefix is added
 by `brew`, not typed by the user. Same pattern as `brew tap homebrew/cask`
-→ `Homebrew/homebrew-cask`. It's why our repo *must* be named
+→ `Homebrew/homebrew-cask`. It's why this repo *must* be named
 `homebrew-bridge` for the short `brew tap my-hq/bridge` command to work.
-
-The two "bridge" tokens are different things:
-- `my-hq/bridge` in `brew tap` is the **tap name** (becomes `homebrew-bridge`).
-- `bridge` in `brew install --cask bridge` is the **cask name** (matches `Casks/bridge.rb`).
-
-We named both "bridge" so the commands look symmetric.
 
 ## How this works with the private Bridge repo
 
-[`my-hq/bridge`](https://github.com/my-hq/bridge) (the source) is private,
-but its **releases** are publicly downloadable. This tap's cask points at
-those public release URLs:
+The Bridge source lives in the **private** [`my-hq/bridge`](https://github.com/my-hq/bridge)
+repo. Its GitHub Releases are not publicly readable (both API and download
+URLs return 404 for unauthenticated callers). So the **release artifacts
+themselves live here**, on this public tap repo. The release workflow over
+in the source repo builds the universal macOS binary, uploads the zip to
+this repo's GitHub Releases, and bumps `Casks/myhq-bridge.rb` to point at
+it — all in one CI run, gated by a fine-grained PAT scoped to this repo.
 
-```ruby
-url "https://github.com/my-hq/bridge/releases/download/v#{version}/Bridge-v#{version}.zip"
-```
-
-So `brew install --cask bridge` fetches the public release artifact —
-no auth, no access to private source. Source stays private; binaries
-are shared via signed releases.
+So `brew install --cask myhq-bridge` fetches from this repo's Releases —
+no auth needed, no access to private source. Source stays private;
+binaries are shared via this tap.
