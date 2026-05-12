@@ -1,6 +1,6 @@
 cask "bridge" do
   version "0.4.0"
-  sha256 "REPLACE_ME_WITH_REAL_SHA256"
+  sha256 "5c4f88210ecda174e0a418872e5b7bbec2777d8660daef8e98963f4d88356f91"
 
   # Artifact lives here, on the tap repo (this repo), not on the private
   # source repo my-hq/bridge. The release workflow over there uploads
